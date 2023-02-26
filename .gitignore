@@ -1,0 +1,42 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Spring Boot
+*.log
+*.jar
+*.war
+mvnw
+mvnw.cmd
+
+# Node.js
+node_modules/
+npm-debug.log
+package-lock.json
+
+# ReactJS
+build/
+dist/
+node_modules/
+
+# PostgreSQL
+*.log
+*.pid
+*.dump
+*.sql
+*.tar
+*.tar.gz
+
+# Gitpod
+.gitpod/
+.gitpod.yml
+
