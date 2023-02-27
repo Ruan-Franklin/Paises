@@ -3,6 +3,8 @@ package com.paises.paises.controllers;
 import com.paises.paises.entities.Pais;
 import com.paises.paises.repositories.PaisRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,19 @@ public ResponseEntity<Pais> atualizarPais(@PathVariable Long id, @RequestBody Pa
         return ResponseEntity.notFound().build();
     }
 }
+@GetMapping
+public ResponseEntity<List<Pais>> getAllPaises() {
+    List<Pais> paises = new ArrayList<>();
+    //Busca todos os países no banco de dados
+    paisRepository.findAll().forEach(p -> paises.add(p));
+    //Se a lista de países estiver vazia, retorna um código 404 (not found)
+    if (paises.isEmpty()) {
+        return ResponseEntity.notFound().build();
+        }
+    return ResponseEntity.ok(paises);
+
+
+    }
 
 
 }
