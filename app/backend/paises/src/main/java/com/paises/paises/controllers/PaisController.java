@@ -64,9 +64,19 @@ public ResponseEntity<List<Pais>> getAllPaises() {
         return ResponseEntity.notFound().build();
         }
     return ResponseEntity.ok(paises);
-
-
     }
-
-
+    
+    @DeleteMapping("/{id}") // Mapeia requisições DELETE que possuem um ID no final da URL para o método deletePaisById()
+    public ResponseEntity<Void> deletePaisById(@PathVariable Long id) {
+        // Verifica se o país com o ID especificado existe no banco de dados
+        if (!paisRepository.existsById(id)) {
+            // Se não encontrar o país, retorna um status HTTP 404 (Not Found)
+            return ResponseEntity.notFound().build();
+        }
+        // Se encontrar o país, remove o país do banco de dados
+        paisRepository.deleteById(id);
+        // Retorna um status HTTP 204 (No Content)
+        return ResponseEntity.noContent().build();
+    }
+    
 }
