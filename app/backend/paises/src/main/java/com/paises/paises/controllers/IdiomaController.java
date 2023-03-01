@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController //Indica que essa classe é um controlador do Spring
 @RequestMapping("/idioma") //Mapeia todas as requisições que iniciam com "/idioma" para esta classe
 public class IdiomaController {
@@ -24,6 +27,15 @@ public class IdiomaController {
         return ResponseEntity.ok(idioma);
 
     }
-
-    
+    @GetMapping
+    public ResponseEntity<List<Idioma>> getAllIdiomas(){
+        List<Idioma> idiomas = new ArrayList<>();
+        //Busca todos os idiomas no banco de dados
+        idiomaRepository.findAll().forEach(i -> idiomas.add(i));
+        //Se a lista de idiomas estiver vazia, retorna um código 404 (not found)
+        if(idiomas.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(idiomas);
+    }
 }
