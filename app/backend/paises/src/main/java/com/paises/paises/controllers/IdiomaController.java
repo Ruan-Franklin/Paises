@@ -4,7 +4,7 @@ import com.paises.paises.repositories.IdiomaRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class IdiomaController {
         return ResponseEntity.ok(idioma);
 
     }
-    @GetMapping
+    @GetMapping //Mapeamento para listar todos os idiommas
     public ResponseEntity<List<Idioma>> getAllIdiomas(){
         List<Idioma> idiomas = new ArrayList<>();
         //Busca todos os idiomas no banco de dados
@@ -38,4 +38,27 @@ public class IdiomaController {
         }
         return ResponseEntity.ok(idiomas);
     }
+    @PostMapping //Mapeia requisições Post para o método createIdioma
+    public ResponseEntity<Idioma> createIdioma(@RequestBody Idioma idioma){
+        //Salva o novo idioma no banco de dados
+        Idioma novoIdioma = idiomaRepository.save(idioma);
+        //Retorna um status 200 (ok) e o idioma criado
+        return ResponseEntity.ok(novoIdioma);   
+    }
+    
+    @PutMapping("/{id}") //Mapeia requisições put que possuem id no final da url para o método atualizarIdioma
+    public ResponseEntity<Idioma> atualizarIdioma(@PathVariable Long id, @RequestBody Idioma idiomaAtualizado){
+        Optional<Idioma> idiomaExistenteOptional = idiomaRepository.findById(id);
+        if(idiomaExistenteOptional.isPresent()){
+            Idioma idiomaExistente = idiomaExistenteOptional.get();
+            idiomaExistente.setNome(idiomaAtualizado.getNome());
+            idiomaExistente.setSigla(idiomaAtualizado.getSigla());
+            Idioma idiomaAtualizadoSalvo = idiomaRepository.save(idiomaExistente);
+            return ResponseEntity.ok(idiomaAtualizadoSalvo);
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
