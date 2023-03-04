@@ -61,4 +61,19 @@ public class IdiomaController {
         }
     }
 
+    @DeleteMapping("/{id}") //Mapeia requisições delete com o id no final da URL para o método deleteIdiomaById
+    public ResponseEntity<Void> deleteIdiomaById(@PathVariable Long id){
+        //Verifica se o idioma com o id especificado existe no banco de dados
+        if(!idiomaRepository.existsById(id)){
+            //Se não encontrar o idioma, retorna um status 404 notFound
+            return ResponseEntity.notFound().build();
+        }
+        //Se encontrar o idioma, remove o idioma do banco de dados
+        idiomaRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+
+
+
+    }
+
 }
