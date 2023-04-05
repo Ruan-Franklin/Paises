@@ -10,9 +10,10 @@ Para executar o projeto, é necessário ter o Docker e o Docker Compose instalad
 docker-compose up
 ```
 
-
 Isso irá construir as imagens necessárias, iniciar os contêineres e iniciar o aplicativo. O backend estará disponível em `http://localhost:8080` e o frontend em `http://localhost:3000`.
 
+para acessar o banco de dados, use:
+`docker exec -it paises_db psql -U postgres`
 ## Funcionalidades
 
 O aplicativo permite realizar as seguintes operações:

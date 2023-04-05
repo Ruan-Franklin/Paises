@@ -47,5 +47,35 @@ public class BlocoEconomicoController {
         //Retorna um status 200 (ok) e o bloco economico criado
         return ResponseEntity.ok(novoBlocoEconomico);
     }
+
+    //Mapeamento para atualizar blocos econômicos
+    @PutMapping("/{id}")
+    public ResponseEntity<BlocoEconomico> atualizarBlocoEconomico(@PathVariable Long id, @RequestBody BlocoEconomico blocoeconomicoAtualizado){
+        Optional<BlocoEconomico> blocoeconomicoExistenteOptional = blocoEconomicoRepository.findById(id);
+        if(blocoeconomicoExistenteOptional.isPresent()){
+            BlocoEconomico blocoeconomicoExistente = blocoeconomicoExistenteOptional.get();
+            blocoeconomicoExistente.setNome(blocoeconomicoAtualizado.getNome());
+            BlocoEconomico blocoeconomicoAtualizadoSalvo = blocoEconomicoRepository.save(blocoeconomicoExistente);
+            return ResponseEntity.ok(blocoeconomicoAtualizadoSalvo);
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //Mapeamento para deletar blocos econômicos pelo ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBlocoEconomicoById(@PathVariable Long id){
+        //Verifica se o bloco econômico com o nome especificado existe no banco de dados
+        if(!blocoEconomicoRepository.existsById(id)){
+            //Se não encontrar o bloco econômico, retorna um status 404, not found
+            return ResponseEntity.notFound().build();
+        }
+        //Se encontrar o bloco econômico, deleta o bloco e gera um status 204 (no content)
+        blocoEconomicoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+
+    }
+
     
 }
