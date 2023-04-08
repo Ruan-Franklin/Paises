@@ -1,9 +1,12 @@
 package com.paises.paises.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Pais {
@@ -23,6 +26,9 @@ public class Pais {
     private Long populacao;
 
     private String capital;
+
+    @ManyToMany(mappedBy = "paises")
+    private List<BlocoEconomico> blocoseconomicos;
 
     public Pais() {}
 
@@ -85,6 +91,14 @@ public class Pais {
 
     public void setCapital(String capital) {
         this.capital = capital;
+    }
+
+    public List<BlocoEconomico> getBlocosEconomicos(){
+        return blocoseconomicos;
+    }
+
+    public void setBlocoEconomicos(List<BlocoEconomico> blocoseconomicos){
+        this.blocoseconomicos=blocoseconomicos;
     }
 
     @Override
